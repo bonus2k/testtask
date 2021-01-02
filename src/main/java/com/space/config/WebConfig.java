@@ -2,6 +2,8 @@ package com.space.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -19,9 +21,14 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("com.space.controller")
+@ComponentScan("com.space")
 public class WebConfig implements WebMvcConfigurer {
+    private final ApplicationContext applicationContext;
 
+    @Autowired
+    public WebConfig(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
     @Bean
     public ViewResolver internalResourceViewResolver() {
