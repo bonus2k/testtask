@@ -1,8 +1,7 @@
 package com.space.controller;
 
-import com.space.dao.DAOController;
 import com.space.model.Ship;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.space.service.ShipsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -14,28 +13,29 @@ import java.util.List;
 @RequestMapping("/rest")
 public class ControllerShips {
 
-    private final DAOController daoController;
+
     private List<Ship> shipList;
 
-    @Autowired
-    public ControllerShips(DAOController daoController) {
-        this.daoController = daoController;
+    private final ShipsService shipsService;
+
+    public ControllerShips(ShipsService shipsService) {
+        this.shipsService = shipsService;
     }
 
     @GetMapping("/ships")
     public ResponseEntity<List<Ship>> index() {
-        shipList = daoController.index();
+        shipList = shipsService.index();
         return new ResponseEntity<>(shipList, HttpStatus.OK);
     }
     @PostMapping("/ships/{id}")
     public ResponseEntity<Ship> update(@RequestBody Ship ship,
                                        @PathVariable("id") Long id){
-        return new ResponseEntity<Ship>(daoController.update(ship, id), HttpStatus.OK);
+        return new ResponseEntity<Ship>(shipsService.update(ship, id), HttpStatus.OK);
     }
 
     @GetMapping("/ships/{id}")
     public ResponseEntity<Ship> show(@PathVariable("id") Long id, Model model){
-        return new ResponseEntity(daoController.show(id), HttpStatus.OK);
+        return new ResponseEntity(shipsService.show(id), HttpStatus.OK);
     }
 
     @GetMapping("/ships/count")
@@ -45,7 +45,7 @@ public class ControllerShips {
     }
     @DeleteMapping("/ships/{id}")
     public ResponseEntity delete(@PathVariable("id") Long id){
-        daoController.delete(id);
+        shipsService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 

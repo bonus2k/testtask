@@ -1,16 +1,22 @@
 package com.space.model;
 
+
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
+@Entity
+@Table(name = "ship")
 public class Ship {
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String planet;
+    @Enumerated(EnumType.STRING)
     private ShipType shipType;
     private Date prodDate;
     private Boolean isUsed;
@@ -30,7 +36,7 @@ public class Ship {
         this.isUsed = isUsed;
         this.speed = speed;
         this.crewSize = crewSize;
-        this.rating = rating;
+        this.rating = countRating();
     }
 
     public Double countRating() {
