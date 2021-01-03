@@ -15,9 +15,9 @@ public class Order {
     private Integer maxCrewSize;
     private Double minRating;
     private Double maxRating;
-    private ShipOrder order;
-    private Integer pageNumber;
-    private Integer pageSize;
+//    private ShipOrder order;
+//    private Integer pageNumber;
+//    private Integer pageSize;
 
     public Order() {
     }
@@ -118,27 +118,46 @@ public class Order {
         this.maxRating = maxRating;
     }
 
-    public ShipOrder getOrder() {
-        return order;
-    }
+//    public ShipOrder getOrder() {
+//        return order;
+//    }
+//
+//    public void setOrder(ShipOrder order) {
+//        this.order = order;
+//    }
+//
+//    public Integer getPageNumber() {
+//        return pageNumber;
+//    }
+//
+//    public void setPageNumber(Integer pageNumber) {
+//        this.pageNumber = pageNumber;
+//    }
+//
+//    public Integer getPageSize() {
+//        return pageSize;
+//    }
+//
+//    public void setPageSize(Integer pageSize) {
+//        this.pageSize = pageSize;
+//    }
 
-    public void setOrder(ShipOrder order) {
-        this.order = order;
-    }
 
-    public Integer getPageNumber() {
-        return pageNumber;
-    }
-
-    public void setPageNumber(Integer pageNumber) {
-        this.pageNumber = pageNumber;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
+    @Override
+    public String toString() {
+        return "Order{" +
+                "name='" + name + '\'' +
+                ", planet='" + planet + '\'' +
+                ", shipType=" + shipType +
+                ", after=" + after +
+                ", before=" + before +
+                ", isUsed=" + isUsed +
+                ", minSpeed=" + minSpeed +
+                ", maxSpeed=" + maxSpeed +
+                ", minCrewSize=" + minCrewSize +
+                ", maxCrewSize=" + maxCrewSize +
+                ", minRating=" + minRating +
+                ", maxRating=" + maxRating +
+                '}';
     }
 }

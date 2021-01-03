@@ -23,10 +23,12 @@ public class ControllerShips {
     }
 
     @GetMapping("/ships")
-    public ResponseEntity<List<Ship>> index() {
-        shipList = shipsService.index();
+    public ResponseEntity<List<Ship>> index(@ModelAttribute("page") Page page) {
+        shipList = shipsService.paging(page.getOrder(), page.getPageNumber(), page.getPageSize());
+        System.out.println(page);
         return new ResponseEntity<>(shipList, HttpStatus.OK);
     }
+
     @PostMapping("/ships/{id}")
     public ResponseEntity<Ship> update(@RequestBody Ship ship,
                                        @PathVariable("id") Long id){
@@ -39,10 +41,11 @@ public class ControllerShips {
     }
 
     @GetMapping("/ships/count")
-    public ResponseEntity count(@ModelAttribute("ship") Ship ship) {
-
-        return new ResponseEntity<>(shipList.size(), HttpStatus.OK);
+    public ResponseEntity count(@ModelAttribute("ship") Ship ship,
+                                @ModelAttribute("order") Order order) {
+        return new ResponseEntity<>(shipsService.count(), HttpStatus.OK);
     }
+
     @DeleteMapping("/ships/{id}")
     public ResponseEntity delete(@PathVariable("id") Long id){
         shipsService.delete(id);
