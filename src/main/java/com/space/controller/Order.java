@@ -1,6 +1,11 @@
 package com.space.controller;
 
 import com.space.model.ShipType;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
+import javax.persistence.Entity;
+
 
 public class Order {
     private String name;

@@ -23,10 +23,10 @@ public class ControllerShips {
     }
 
     @GetMapping("/ships")
-    public ResponseEntity<List<Ship>> index(@ModelAttribute("page") Page page) {
-        shipList = shipsService.paging(page.getOrder(), page.getPageNumber(), page.getPageSize());
-        System.out.println(page);
-        return new ResponseEntity<>(shipList, HttpStatus.OK);
+    public ResponseEntity<List<Ship>> index(@ModelAttribute("page") Page page,
+                                            @ModelAttribute("order") Order order) {
+        shipList = shipsService.findByName(order, page);
+        return new ResponseEntity<>(shipList, HttpStatus.resolve(200));
     }
 
     @PostMapping("/ships/{id}")
@@ -43,6 +43,7 @@ public class ControllerShips {
     @GetMapping("/ships/count")
     public ResponseEntity count(@ModelAttribute("ship") Ship ship,
                                 @ModelAttribute("order") Order order) {
+
         return new ResponseEntity<>(shipsService.count(), HttpStatus.OK);
     }
 
