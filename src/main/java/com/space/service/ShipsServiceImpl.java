@@ -61,21 +61,32 @@ public class ShipsServiceImpl implements ShipsService {
     }
 
     @Override
-    public Integer count() {
-        return Math.toIntExact(shipsRepository.count());
+    public Integer count(Order order) {
+        Date after = (order.getAfter() == null) ? null : UtilForShips.dateRound(order.getAfter());
+        Date before = (order.getBefore() == null) ? null : UtilForShips.dateRound(order.getBefore());
+
+        return shipsRepository.countByOrder(order.getName(),
+                order.getPlanet(),
+                after,
+                before,
+                order.getMinCrewSize(),
+                order.getMaxCrewSize(),
+                order.getShipType(),
+                order.getUsed(),
+                order.getMaxSpeed(),
+                order.getMinSpeed(),
+                order.getMaxRating(),
+                order.getMinRating()).size();
     }
 
     @Override
     public List<Ship> findByName(Order order, Page page) {
-        Date after = (order.getAfter()==null)?null:UtilForShips.dateRound(order.getAfter());
-        Date before = (order.getBefore()==null)?null:UtilForShips.dateRound(order.getBefore());
+        Date after = (order.getAfter() == null) ? null : UtilForShips.dateRound(order.getAfter());
+        Date before = (order.getBefore() == null) ? null : UtilForShips.dateRound(order.getBefore());
 
-        Pageable pageCount;
-        if (page.getOrder() == ShipOrder.ID) {
-            pageCount = PageRequest.of(page.getPageNumber(), page.getPageSize(), Sort.by(page.getOrder().getFieldName()));
-        } else {
-            pageCount = PageRequest.of(page.getPageNumber(), page.getPageSize(), Sort.by(page.getOrder().getFieldName()).descending());
-        }
+        Pageable pageCount = PageRequest.of(page.getPageNumber(), page.getPageSize(), Sort.by(page.getOrder().getFieldName()));
+
+//        System.out.println(order);
 
         return shipsRepository.findByOrder(order.getName(),
                 order.getPlanet(),
@@ -84,10 +95,15 @@ public class ShipsServiceImpl implements ShipsService {
                 order.getMinCrewSize(),
                 order.getMaxCrewSize(),
                 order.getShipType(),
-                order.getUsed(), pageCount);
-//                .forEach(System.out::println);
+                order.getUsed(),
+                order.getMaxSpeed(),
+                order.getMinSpeed(),
+                order.getMaxRating(),
+                order.getMinRating(),
+                pageCount);
+
 //
-//        System.out.println(after);
+
 //        System.out.println(before);
 //        System.out.println("---------------------------------------------------------------------");
 //        return null;

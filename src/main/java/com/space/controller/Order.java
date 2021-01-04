@@ -1,10 +1,6 @@
 package com.space.controller;
 
 import com.space.model.ShipType;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-
-import javax.persistence.Entity;
 
 
 public class Order {
@@ -20,9 +16,7 @@ public class Order {
     private Integer maxCrewSize;
     private Double minRating;
     private Double maxRating;
-//    private ShipOrder order;
-//    private Integer pageNumber;
-//    private Integer pageSize;
+
 
     public Order() {
     }
@@ -72,7 +66,7 @@ public class Order {
     }
 
     public void setUsed(Boolean used) {
-        isUsed = used;
+        this.isUsed = used;
     }
 
     public Double getMinSpeed() {
@@ -122,30 +116,6 @@ public class Order {
     public void setMaxRating(Double maxRating) {
         this.maxRating = maxRating;
     }
-
-//    public ShipOrder getOrder() {
-//        return order;
-//    }
-//
-//    public void setOrder(ShipOrder order) {
-//        this.order = order;
-//    }
-//
-//    public Integer getPageNumber() {
-//        return pageNumber;
-//    }
-//
-//    public void setPageNumber(Integer pageNumber) {
-//        this.pageNumber = pageNumber;
-//    }
-//
-//    public Integer getPageSize() {
-//        return pageSize;
-//    }
-//
-//    public void setPageSize(Integer pageSize) {
-//        this.pageSize = pageSize;
-//    }
 
 
     @Override
