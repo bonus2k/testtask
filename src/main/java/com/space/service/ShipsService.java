@@ -17,8 +17,6 @@ public interface ShipsService {
 
     void delete(Long id);
 
-    List<Ship> paging(ShipOrder shipOrder, Integer pageNumber, Integer pageSize);
-
     Integer count(Order order);
 
     List<Ship> findByName(Order order, Page page);

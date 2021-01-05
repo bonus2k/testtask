@@ -28,10 +28,7 @@ public class ControllerShips {
                                             @ModelAttribute("Order") Order order,
                                             @RequestParam(name = "isUsed", required = false) Boolean used) {
         order.setUsed(used);
-        indexOrder=order;
-        System.out.println(order);
-        shipList = shipsService.findByName(order, page);
-        return new ResponseEntity<>(shipList, HttpStatus.resolve(200));
+        return new ResponseEntity<>(shipsService.findByName(order, page), HttpStatus.resolve(200));
     }
 
     @PostMapping("/ships/{id}")
