@@ -34,14 +34,22 @@ public class ControllerShips {
     public ResponseEntity update(@RequestBody Ship ship,
                                  @PathVariable("id") Long id) {
 
+        ship.setId(null);
 
         if (id < 1 ) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         } else if (shipsService.show(id) == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);}
-        else if (UtilForShips.editValidator(ship)) {
+        else if (!UtilForShips.editValidator(ship)) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);}
         else return new ResponseEntity(shipsService.update(ship, id), HttpStatus.OK);
+    }
+
+    @PostMapping("/ships/")
+    public ResponseEntity create(@RequestBody Ship ship) {
+        if (!UtilForShips.createValidator(ship)) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);}
+        else return new ResponseEntity(shipsService.save(ship), HttpStatus.OK);
     }
 
     @GetMapping("/ships/{id}")

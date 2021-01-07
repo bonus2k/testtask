@@ -39,17 +39,27 @@ public class ShipsServiceImpl implements ShipsService {
     @Override
     public Ship update(Ship src, Long id) {
         Ship target = shipsRepository.findById(id).orElse(null);
-        //Double rating = (src.getRating()!=null) ? target.getRating() : target.countRating();
-        if (target != null) {
-            UtilForShips.copyNonNullProperties(src, target);
-            shipsRepository.update(target.getName(), target.getPlanet(), target.getShipType(), target.getProdDate(),
-                    target.getUsed(), target.getSpeed(), target.getCrewSize(), target.countRating(), id);
-            return target;
-        } else return null;
+
+        UtilForShips.copyNonNullProperties(src, target);
+        target.setRating(target.countRating());
+        shipsRepository.update(target.getName(), target.getPlanet(), target.getShipType(), target.getProdDate(),
+                target.getUsed(), target.getSpeed(), target.getCrewSize(), target.getRating(), id);
+
+        return target;
+
     }
 
-    public Boolean isExist(Long id){
+    public Boolean isExist(Long id) {
         return shipsRepository.existsById(id);
+    }
+
+    @Override
+    public Ship save(Ship ship) {
+        boolean isUsed = (ship.getUsed()==null)?false:ship.getUsed();
+        ship.setUsed(isUsed);
+        ship.setRating(ship.countRating());
+        shipsRepository.save(ship);
+        return ship;
     }
 
     @Transactional
@@ -60,8 +70,8 @@ public class ShipsServiceImpl implements ShipsService {
 
     @Override
     public Integer count(Order order) {
-        Date after = (order.getAfter() == null) ? null : UtilForShips.dateRound(order.getAfter());
-        Date before = (order.getBefore() == null) ? null : UtilForShips.dateRound(order.getBefore());
+        Date after = (order.getAfter() == null) ? null : UtilForShips.getDateForYear(UtilForShips.getYearFromDate(new Date(order.getAfter())));
+        Date before = (order.getBefore() == null) ? null : UtilForShips.getDateForYear(UtilForShips.getYearFromDate(new Date(order.getBefore())));
 
         return shipsRepository.countByOrder(order.getName(),
                 order.getPlanet(),
@@ -79,8 +89,8 @@ public class ShipsServiceImpl implements ShipsService {
 
     @Override
     public List<Ship> findByName(Order order, Page page) {
-        Date after = (order.getAfter() == null) ? null : UtilForShips.dateRound(order.getAfter());
-        Date before = (order.getBefore() == null) ? null : UtilForShips.dateRound(order.getBefore());
+        Date after = (order.getAfter() == null) ? null : UtilForShips.getDateForYear(UtilForShips.getYearFromDate(new Date(order.getAfter())));
+        Date before = (order.getBefore() == null) ? null : UtilForShips.getDateForYear(UtilForShips.getYearFromDate(new Date(order.getBefore())));
         Pageable pageCount = PageRequest.of(page.getPageNumber(), page.getPageSize(), Sort.by(page.getOrder().getFieldName()));
 
         return shipsRepository.findByOrder(order.getName(),

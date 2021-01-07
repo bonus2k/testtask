@@ -22,4 +22,6 @@ public interface ShipsService {
     List<Ship> findByName(Order order, Page page);
 
     Boolean isExist(Long id);
+
+    Ship save(Ship ship);
 }

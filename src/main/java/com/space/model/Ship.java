@@ -1,10 +1,9 @@
 package com.space.model;
 
 
+import com.space.util.UtilForShips;
+
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -39,11 +38,11 @@ public class Ship {
     }
 
     public Double countRating() {
-        double used = (isUsed) ? 0.5 : 1;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy");
-        BigDecimal bigDecimal = new BigDecimal((80 * speed * used) / (3019 - Integer.parseInt((formatter.format(prodDate)))+1));
-        bigDecimal=bigDecimal.setScale(2, RoundingMode.HALF_UP);
-        return bigDecimal.doubleValue();
+            final int now = 3019;
+            final int prodYear = UtilForShips.getYearFromDate(this.prodDate);
+            final double k = isUsed ? 0.5 : 1;
+            final double rating = 80 * speed * k / (now - prodYear + 1);
+            return UtilForShips.round(rating);
     }
 
     public Long getId() {
