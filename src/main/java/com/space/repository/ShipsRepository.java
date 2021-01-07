@@ -5,6 +5,7 @@ import com.space.model.Ship;
 import com.space.model.ShipType;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -30,7 +31,6 @@ public interface ShipsRepository extends JpaRepository<Ship, Long> {
             "and (:maxRating is null or s.rating <= :maxRating) " +
             "and (:minRating is null or s.rating >= :minRating) " +
             "")
-
     List<Ship> findByOrder(@Param("name") String name,
                            @Param("planet") String planet,
                            @Param("after") Date after,
@@ -59,17 +59,35 @@ public interface ShipsRepository extends JpaRepository<Ship, Long> {
             "and (:maxRating is null or s.rating <= :maxRating) " +
             "and (:minRating is null or s.rating >= :minRating) " +
             "")
-
     List<Ship> countByOrder(@Param("name") String name,
-                           @Param("planet") String planet,
-                           @Param("after") Date after,
-                           @Param("before") Date before,
-                           @Param("minCrewSize") Integer minCrewSize,
-                           @Param("maxCrewSize") Integer maxCrewSize,
-                           @Param("shipType") ShipType shipType,
-                           @Param("isUsed") Boolean isUsed,
-                           @Param("maxSpeed") Double maxSpeed,
-                           @Param("minSpeed") Double minSpeed,
-                           @Param("maxRating") Double maxRating,
-                           @Param("minRating") Double minRating);
+                            @Param("planet") String planet,
+                            @Param("after") Date after,
+                            @Param("before") Date before,
+                            @Param("minCrewSize") Integer minCrewSize,
+                            @Param("maxCrewSize") Integer maxCrewSize,
+                            @Param("shipType") ShipType shipType,
+                            @Param("isUsed") Boolean isUsed,
+                            @Param("maxSpeed") Double maxSpeed,
+                            @Param("minSpeed") Double minSpeed,
+                            @Param("maxRating") Double maxRating,
+                            @Param("minRating") Double minRating);
+
+    @Modifying
+    @Query("UPDATE Ship s SET s.name = :name, " +
+            "s.planet = :planet, " +
+            "s.shipType = :shipType, " +
+            "s.prodDate = :prodDate, " +
+            "s.isUsed = :isUsed, " +
+            "s.speed = :speed, " +
+            "s.crewSize = :crewSize, " +
+            "s.rating = :rating WHERE s.id = :id")
+    int update(@Param("name") String name,
+                @Param("planet") String planet,
+                @Param("shipType") ShipType shipType,
+                @Param("prodDate") Date prodDate,
+                @Param("isUsed") Boolean isUsed,
+                @Param("speed") Double speed,
+                @Param("crewSize") Integer crewSize,
+                @Param("rating") Double rating,
+                @Param("id") Long id);
 }

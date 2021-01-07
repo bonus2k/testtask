@@ -35,11 +35,24 @@ public class ShipsServiceImpl implements ShipsService {
         return shipsRepository.findById(id).orElse(null);
     }
 
+    @Transactional
     @Override
-    public Ship update(Ship ship, Long id) {
-        return null;
+    public Ship update(Ship src, Long id) {
+        Ship target = shipsRepository.findById(id).orElse(null);
+        //Double rating = (src.getRating()!=null) ? target.getRating() : target.countRating();
+        if (target != null) {
+            UtilForShips.copyNonNullProperties(src, target);
+            shipsRepository.update(target.getName(), target.getPlanet(), target.getShipType(), target.getProdDate(),
+                    target.getUsed(), target.getSpeed(), target.getCrewSize(), target.countRating(), id);
+            return target;
+        } else return null;
     }
 
+    public Boolean isExist(Long id){
+        return shipsRepository.existsById(id);
+    }
+
+    @Transactional
     @Override
     public void delete(Long id) {
         shipsRepository.deleteById(id);

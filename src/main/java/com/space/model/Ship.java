@@ -1,7 +1,6 @@
 package com.space.model;
 
 
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -22,7 +21,7 @@ public class Ship {
     private Boolean isUsed;
     private Double speed;
     private Integer crewSize;
-    Double rating;
+    private Double rating;
 
     public Ship() {
     }

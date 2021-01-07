@@ -20,4 +20,6 @@ public interface ShipsService {
     Integer count(Order order);
 
     List<Ship> findByName(Order order, Page page);
+
+    Boolean isExist(Long id);
 }
